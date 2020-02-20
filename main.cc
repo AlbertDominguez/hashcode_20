@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <cassert>
+#include <cmath>
 #include <iostream>
 #include <queue>
 #include <set>
@@ -90,7 +92,6 @@ vector<pair<int,vector<int>>> processed;
 double formula_temps(const Library&  library, int D_left) {
 	int signup = library.signup;
 	double sign_D_left = double(signup)/double(D_left);
-
 	return sign_D_left;
 }
 
@@ -105,8 +106,8 @@ double formula_potencial(const Library& library, int D_left, int sum_total = 0, 
 		pair<int,int> element = cua.top();
 		if (not books[element.second].read){
 			int appear = books[element.second].in_libs.size();
-			total += element.first/double(appear);
-			count += 1;
+			total += element.first/(double(appear));
+            count += 1;
 		}
 		cua.pop();
 		
@@ -124,8 +125,8 @@ double formula(const Library& library, int D_left, int sum_total = 0, int l_tota
 	double temps = formula_temps(library, D_left);
     // cout << "temps done" << endl;
 
-	double fin = temps + potencial;
-
+	double fin = pow(1-temps,3)*potencial;
+    assert(fin >= 0);
 	return fin;
 
 }
