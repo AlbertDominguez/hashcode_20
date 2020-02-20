@@ -158,11 +158,12 @@ pair <int,vector<int>> to_sign_up(int D_left){
             // cout << "jeje" << endl;
 			score = formula(libraries[i], D_left, 0, 0);
             // cout << "jojo" << endl;
+            if (score > maxim.first){
+                maxim.first = score;
+                maxim.second = i;
+		    }
 		}
-		if (score > maxim.first){
-			maxim.first = score;
-			maxim.second = i;
-		}
+		
 	}
     if (maxim.second != -1 and maxim.first != -1) {
         libraries[maxim.second].visited = true;
