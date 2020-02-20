@@ -136,9 +136,12 @@ vector<int> llibres_processats(priority_queue <pair<int,int>>& cua, int D_left, 
 	vector<int> selected;
 	while (not cua.empty() and count < capacity*(D_left - signup)){
 		pair<int,int> element = cua.top();
-		selected.push_back(element.second);
-        books[element.second].read = true;
-		cua.pop();
+        if (not books[element.second].read) {
+            selected.push_back(element.second);
+            books[element.second].read = true;
+            ++count;
+        }
+        cua.pop();
 	}
 	return selected;
 }
@@ -149,31 +152,32 @@ pair <int,vector<int>> to_sign_up(int D_left){
 	pair<int,int> maxim; //primer score, dsp id
 	maxim.first = -1;
 	maxim.second = -1;
-	double score=0;
+	double score = 0;
 	for(int i = 0; i<libraries.size(); i++){
 		if (not libraries[i].visited){
             // cout << "jeje" << endl;
 			score = formula(libraries[i], D_left, 0, 0);
             // cout << "jojo" << endl;
-            if (score == -1) {
-                vector<int> junk;
-                return {-1,junk};
-            }
 		}
 		if (score > maxim.first){
 			maxim.first = score;
 			maxim.second = i;
 		}
 	}
-	libraries[maxim.second].visited = true;
-	Library lib_ret = libraries[maxim.second];
-	vector<int> books_process = llibres_processats(lib_ret.books_here, D_left, lib_ret.capacity, lib_ret.signup);
-    // cout << "hola" << endl;
-	pair <int,vector<int>> ret;
-	ret.first = maxim.second;
-	ret.second = books_process;
-    // cout << "out" << endl;
-	return ret;
+    if (maxim.second != -1 and maxim.first != -1) {
+        libraries[maxim.second].visited = true;
+        Library lib_ret = libraries[maxim.second];
+        vector<int> books_process = llibres_processats(lib_ret.books_here, D_left, lib_ret.capacity, lib_ret.signup);
+        // cout << "hola" << endl;
+        pair <int,vector<int>> ret;
+        ret.first = maxim.second;
+        ret.second = books_process;
+        // cout << "out" << endl;
+        return ret;
+    } else {
+        vector<int> junk;
+        return {-1,junk};
+    }
 }
 
 void output() {
