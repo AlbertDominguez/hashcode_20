@@ -120,8 +120,10 @@ pair <int,vector<int>> to_sign_up(int D_left){
 		if (not libraries[i].visited){
 			score = formula(libraries[i], D_left, 0, 0);
             if (score > maxim.first){
-                maxim.first = score;
-                maxim.second = i;
+                if (rand()%100 > 2){
+                    maxim.first = score;
+                    maxim.second = i;
+                }
 		    }
 		}		
 	}
