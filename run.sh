@@ -1,3 +1,5 @@
+rm submission_*
+g++ -Wall -O2 -std=c++11 main.cc -o p.x
 ./p.x < a_example.txt > submission_a.txt
 ./p.x < b_read_on.txt > submission_b.txt
 ./p.x < c_incunabula.txt > submission_c.txt
